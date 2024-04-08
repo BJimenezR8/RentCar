@@ -1,3 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using RentCar.Models;
+using Microsoft.AspNetCore.Identity;
+using RentCar.Data;
+using RentCar.Areas.Identity.Data;
+
 namespace RentCar
 {
     public class Program
@@ -8,6 +15,13 @@ namespace RentCar
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+
+            builder.Services.AddDbContext<DbAa5e9fBryantj001Context>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
+
+            builder.Services.AddDefaultIdentity<RentCarUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<RentCarContext>();
+
 
             var app = builder.Build();
 
@@ -29,6 +43,8 @@ namespace RentCar
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.MapRazorPages();
 
             app.Run();
         }
